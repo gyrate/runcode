@@ -125,6 +125,7 @@
             baseURL: '../../',
             map,
             zooms: [10, 22],
+            intensity: 2,
             colorStyle:{
                 map: {
                   0: '#be393a',
@@ -137,13 +138,15 @@
             models:[{
                 modelId: 'main',
                 // taper1.glb 不带圆环, taper2.glb 带圆环
-                sourceUrl: './static/gltf/taper2.glb'
+                sourceUrl: './static/gltf/taper2.glb',
+                size: 0.5
             }, {
                 modelId: 'tray',
-                sourceUrl: './static/gltf/taper1-p.glb'
+                sourceUrl: './static/gltf/taper1-p.glb',
+                size: 1
             }],
             data,
-            // PDI: true // 像素密度无关模式
+            PDI: false // 像素密度无关模式
         })
 
     }
