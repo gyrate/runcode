@@ -1,8 +1,7 @@
-// import getData from 'https://code.juejin.cn/api/raw/7165810446271545375?id=7165810446271594527';
-// import solver from 'https://code.juejin.cn/api/raw/7165811417449234464?id=7165811417449283616';
 import * as THREE from 'three'
+import BaseUtils from './BaseUtils.js'
 
-export default class GLLayer {
+export default class GLLayer extends BaseUtils {
 
   // 配置项
   _conf = {
@@ -20,6 +19,12 @@ export default class GLLayer {
     visible: true
   }
 
+  // 射线，用于做物体拾取
+  _raycaster = null
+
+  // 支持鼠标交互
+  _interactAble = false
+
   // 当前图层是否应该显示
   // 受conf.visible和isInZooms影响
   _visible = true
@@ -33,7 +38,17 @@ export default class GLLayer {
   // 图层中心坐标
   _center = null
 
+   // 默认支持动画
+   _isAnimate = true
+   
+  // 资源基础路径
+  _baseURL = '.'
+
+  // 拾取事件，默认为mousemove
+  _pickEvent = null
+
   constructor (config) {
+    super()
     this._conf = Object.assign(this._conf, config)
 
     // 地图是必须项
@@ -51,6 +66,7 @@ export default class GLLayer {
     if (!this.container) {
       throw Error('config.container invalid')
     }
+    this._interactAble = config.interact || false
     this.customCoords = this.map.customCoords
 
     if (config.center) {
@@ -61,6 +77,24 @@ export default class GLLayer {
       this.updateCenter([lng, lat])
       this._center = [lng, lat]
     }
+
+    // 资源基础路径
+    if (config.baseURL !== undefined) {
+      this._baseURL = config.baseURL
+    }
+     // 触发拾取的事件类型
+    if (!config.pickEvent) {
+      this._pickEvent = config.pickEvent || 'mousemove'
+    }
+    // 支持动画
+    if (config.animate !== undefined) {
+      this._isAnimate = config.animate
+    }
+
+    // onRay方法 防抖动
+    this.handleOnRay = _.debounce(this.onRay, 100, true)
+     // 绑定this
+     this.bindMethods(['animate', 'resizeLayer', 'handleOnRay'])
 
     // three相关属性
     this.camera = null
@@ -78,6 +112,7 @@ export default class GLLayer {
     this.addModuleListener()
     await this.initLayer()
     this.onReady()
+    this._initInteract()
     this.animate()
   }
 
@@ -291,6 +326,79 @@ export default class GLLayer {
     requestAnimationFrame(this.animate)
   }
 
+  /**
+   * @private
+   * @description 初始化鼠标交互
+   */
+  _initInteract () {
+    
+    if (this._interactAble === false) {
+      return
+    }
+    // const t = this
+    this._raycaster = new THREE.Raycaster()
+    if (this._pickEvent) {
+      this.container.addEventListener(this._pickEvent, this.handleOnRay)
+    }
+  }
+  /**
+   * 在光标位置创建一个射线，捕获物体
+   * @param event
+   * @return {*}
+   */
+  onRay (event) {
+    const { scene, camera } = this
+
+    if (!scene) {
+      return
+    }
+
+    const pickPosition = this.setPickPosition(event)
+
+    this._raycaster.setFromCamera(pickPosition, camera)
+
+    const intersects = this._raycaster.intersectObjects(scene.children, true)
+
+    if (typeof this.onPicked === 'function' && this._interactAble) {
+      this.onPicked.apply(this, [{ targets: intersects, event }])
+    }
+    return intersects
+  }
+
+  /**
+   * @private
+   * @description 获取鼠标在three.js 中的归一化坐标
+   * @param {*} event
+   * @returns {{x: number, y: number}}
+   */
+  setPickPosition (event) {
+    const pickPosition = { x: 0, y: 0 }
+    const rect = this.container.getBoundingClientRect()
+    // // 将鼠标位置归一化为设备坐标, x 和 y 方向的取值范围是 (-1 to +1)
+    pickPosition.x = (event.clientX / rect.width) * 2 - 1
+    pickPosition.y = (event.clientY / rect.height) * -2 + 1
+    return pickPosition
+  }
+
+  /**
+     * @protected
+     * @description 控制图层显示范围
+     */
+  initZooms () {
+    this.map.on('zoomend', (event) => {
+      this.reviseVisible()
+    })
+  }
+
+  /**
+   * @protected
+   * @description 判断当前图层是否在可以显示的范围内
+   * @returns {boolean}
+   */
+  isInZooms () {
+    const zoom = this.map.getZoom()
+    return zoom >= this._zooms[0] && zoom <= this._zooms[1]
+  }
 
   addModuleListener () {
     window.addEventListener('resize', this.resizeLayer)
@@ -331,6 +439,44 @@ export default class GLLayer {
     this.map.on('zoomend', (event) => {
       this.reviseVisible()
     })
+  }
+
+  /**
+   * @public
+   * @description 绑定方法的this指向当前对象
+   */
+  bindMethods (fnNames) {
+    fnNames.forEach((name) => {
+      this[name] = this[name].bind(this)
+    })
+  }
+
+  /**
+   * 调整静态资源路径
+   * url如果以http或.开头则直接返回，否则加上baseURL前缀后返回
+   * @param {String} url 静态资源路径
+   */
+  mergeSourceURL (url) {
+    if (typeof url !== 'string') {
+      console.error('mergeSourceURL param "url" must be Sting')
+      return null
+    } else if (url.startsWith('http')) {
+      return url
+    } else {
+      return `${this._baseURL}${url}`
+    }
+  }
+
+  /**
+   * @description 获取当前地图的分辨率,分辨率是指1个像素代表的实际距离
+   * @return {*|null}
+   */
+  getResolution () {
+    if (typeof this.map.getResolution === 'function') {
+      return this.map.getResolution()
+    } else {
+      return null
+    }
   }
 
 }
