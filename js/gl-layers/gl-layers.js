@@ -318,11 +318,10 @@ export default class GLLayer extends BaseUtils {
       this.update(time)
       // this.handleEvent('update', this)
     }
-    // if (this._conf.alone) {
-    //   this.updateCamera()
-    // } else if (this.map) {
-      this.map.render()
-    // }
+
+    //
+    this.map.render()
+
     requestAnimationFrame(this.animate)
   }
 
@@ -477,6 +476,19 @@ export default class GLLayer extends BaseUtils {
     } else {
       return null
     }
+  }
+
+  /**
+   * @public
+   * @description 添加辅助坐标， 红色代表 X 轴. 绿色代表 Y 轴. 蓝色代表 Z 轴
+   * @param {Array} position 坐标原点的位置,默认值[x,y,z]
+   * @param {Number} length 坐标轴可见长度,默认值 15000
+   */
+  createHelper (position = [0, 0, 0], length = 15000) {
+    const axesHelper = new THREE.AxesHelper(length)
+    const [x, y, z] = position
+    axesHelper.position.set(x, y, z)
+    this.scene.add(axesHelper)
   }
 
 }

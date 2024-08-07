@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>test gl-layers</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tool {
+            position: absolute;
+            top: 1em;
+            left: 8em;
+            z-index: 99;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container"></div>
+
+
+    <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/"
+    }
+  }
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.16/lodash.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <script type="module">
+        import * as THREE from 'three'
+        import { initMap, getMap } from '../js/mainMap2.js'
+        import POI3dLayer from '../js/gl-layers/POI3dLayer0.js'
+        import { GUI } from 'three/addons/libs/lil-gui.module.min.js'
+
+        let layer;
+
+
+        async function main() {
+            await init()
+            initLayer()
+        }
+        main()
+
+        async function init() {
+            const map = await initMap({
+                viewMode: '3D',
+                dom: container.value,
+                showBuildingBlock: false,
+                center: [113.326961, 23.141248],
+                zoom: 13.5,
+                mapStyle: 'amap://styles/dark',
+                skyColor: 'rgba(140, 176, 222, 1)'
+            })
+
+            // 添加卫星地图
+            // const satelliteLayer = new AMap.TileLayer.Satellite()
+            // map.add([satelliteLayer])
+            // 给底图添加css滤镜
+            // document.querySelector('.amap-layer').style = 'filter:brightness(0.5) saturate(0.3) grayscale(0.5);'
+
+            map.on('zoomend', (event) => {
+                console.log(`当前地图zoom: ${map.getZoom()}`)
+            })
+            map.on('click', (event) => {
+                const { lng, lat } = event.lnglat
+                console.log([lng, lat])
+            })
+        }
+
+        async function getData() {
+            const { data } = await axios.get(`/static/mock/guagnzhou-poi.json`)
+            //data.features[0].geometry.coordinates
+
+            const res = data.features.map((item, index) => {
+                const [lng, lat] = item.geometry.coordinates
+                return {
+                    lngLat: [lng, lat],
+                    modelId: 'warning',
+                    id: index,
+                    type: index % 4,
+                }
+            })
+
+            return res
+        }
+
+        async function initLayer() {
+            const map = getMap()
+
+            // const data = await getData()
+
+            const layer = new POI3dLayer({
+                map,
+                data: { features: [] }
+            })
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>
