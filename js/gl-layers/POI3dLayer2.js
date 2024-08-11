@@ -33,6 +33,10 @@ class POI3dLayer0 extends Layer {
     // 用于做定位和移动的介质
     _dummy = new THREE.Object3D()
 
+    // 最后一次高亮的物体信息
+    _lastPickIndex = {
+        index: null
+    }
 
     /**
      * 创建一个实例
@@ -43,6 +47,7 @@ class POI3dLayer0 extends Layer {
         const conf = {
             data: null,
             intensity: 1.0, //光照倍数
+            interact: true, //允许交互
             ...config
         }
         super(conf)
@@ -201,9 +206,9 @@ class POI3dLayer0 extends Layer {
      * @param {Object} transform 变化设置，比如{size:1, position:[0,0,0], rotation:[0,0,0]}
      * @param {Number} index 网格体实例索引值
      */
-    updateMatrixAt (mesh, transform, index) {
+    updateMatrixAt(mesh, transform, index) {
         if (!mesh) {
-        return
+            return
         }
         const { size, position, rotation } = transform
         const { _dummy } = this
@@ -234,6 +239,70 @@ class POI3dLayer0 extends Layer {
     }
 
     /**
+   * 处理拾取事件
+   * @private
+   * @param targets
+   * @param event
+   */
+    onPicked({ targets, event }) {
+
+        let attrs = null
+        if (targets.length > 0) {
+            const cMesh = targets[0].object
+            if (cMesh?.isInstancedMesh) {
+                const intersection = this._raycaster.intersectObject(cMesh, false)
+                // 获取目标序号
+                const { instanceId } = intersection[0]
+                // 设置选中状态
+                this.setLastPick(instanceId)
+                attrs = this._data[instanceId]
+                this.container.style.cursor = 'pointer'
+            }
+        } else {
+            if (this._lastPickIndex.index !== null) {
+                this.container.style.cursor = 'default'
+            }
+            this.removeLastPick()
+        }
+
+        // 派发pick事件
+        this.handleEvent('pick', {
+          screenX: event?.pixel?.x,
+          screenY: event?.pixel?.y,
+          attrs
+        })
+    }
+
+    /**
+     * 设置最后一次拾取的目标
+     * @param {Number} instanceId 目标序号
+     * @private
+     */
+    setLastPick(index) {
+        this._lastPickIndex.index = index
+    }
+
+    /**
+     * 移除选中的模型状态
+     */
+    removeLastPick() {
+        const { index } = this._lastPickIndex
+        if (index !== null) {
+            // 恢复实例化模型初始状态
+            const mainMesh = this._instanceMap['main']
+
+            const [x, y] = this._data[index].coords
+            this.updateMatrixAt(mainMesh, {
+                size: this._size,
+                position: [x, y, 0],
+                rotation: [0, 0, 0]
+            }, index)
+        }
+
+        this._lastPickIndex.index = null
+    }
+
+    /**
      * @description 更新指定网格体的单个示例的变化矩阵
      * @param {instancedMesh} Mesh 网格体
      * @param {Object} transform 变化设置，比如{size:1, position:[0,0,0], rotation:[0,0,0]}
@@ -260,7 +329,8 @@ class POI3dLayer0 extends Layer {
     // 逐帧更新图层
     update() {
 
-        const { main, tray } = this._instanceMap
+        const { main, tray, } = this._instanceMap
+        const { _lastPickIndex, _size } = this
 
         // 更新托盘纹理
         const texture = tray?.material?.map
@@ -270,18 +340,19 @@ class POI3dLayer0 extends Layer {
             texture.offset.x = Math.floor(this._offset) / this._frameX
         }
 
-        // 更新主体旋转角度
-        this._data.forEach((item, index) => {
-            const [x, y] = item.coords
-            this.updateMatrixAt(main, {
-                size: this._size,
-                position: [x, y, 0],
-                rotation: [0, 0, this._currentAngle]
-            }, index)
-        })
-        // 更新主体旋转角度
+        // 鼠标悬浮对象
+      if (_lastPickIndex.index !== null) {
+        const [x, y] = this._data[_lastPickIndex.index].coords
+        this.updateMatrixAt(main, {
+          size: _size * 1.2, // 选中的对象放大1.2倍
+          position: [x, y, 0],
+          rotation: [0, 0, this._currentAngle]
+        }, _lastPickIndex.index)
+      }
+       
+        // 更新旋转角度值
         this._currentAngle = (this._currentAngle + 0.05) % this._maxAngle
-        
+
         // 强制更新instancedMesh实例，必须！
         if (main?.instanceMatrix) {
             main.instanceMatrix.needsUpdate = true

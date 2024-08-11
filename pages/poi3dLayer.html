@@ -50,23 +50,11 @@
 
     console.log(THREE.REVISION)
 
-    // 组件配置
-    const guiControl = {
-        // mode: 'rotate',
-        // radius: 5000,
-        // speed: 1,
-        // easingFunction: 'Easing.Linear.None',
-        // altitude: 0,
-        // textureMapURL: 'ring_8.png',
-        // repeat: 1,
-        // color: '#fdeb1e'
-    }
     let layer;
 
 
     async function main(){
         await init()
-        initGUI()
         initLayer()
     }
     main()
@@ -108,6 +96,7 @@
                 modelId: 'warning',
                 id: index,
                 type: index % 4,
+                name: item.properties.name
             }
         })
 
@@ -116,8 +105,6 @@
 
     async function initLayer(){
         const map = getMap()
-
-        const { radius, speed, easingFunction, altitude, textureMapURL, mode, color } = guiControl
 
         const data = await getData()
 
@@ -150,32 +137,6 @@
         })
 
     }
-
-    function initGUI(){
-        const gui = new GUI()
-
-        // gui.addColor(guiControl, 'color',).name('颜色').onChange((value) => {
-        //     if (layer._conf.mode === 'rotate') {
-        //         layer._mesh.material.color.set(value)
-        //     } else if (layer._conf.mode === 'spread') {
-        //         layer._mesh.material.uniforms.color.value = new THREE.Color(value)
-        //     }
-        // })
-
-        // gui.add(guiControl, 'radius', 100, 100000).step(1).name('半径').onChange((value) => {
-        //     layer.setRadius(value)
-        // })
-
-        // gui.add(guiControl, 'altitude', 0, 10000).step(10).name('高度').onChange((value) => {
-        //     layer.setAltitude(value)
-        // })
-
-        // gui.add(guiControl, 'speed', 1, 10).step(1).name('动画速度').onChange((value) => {
-        //     layer.setDuration(value)
-        // })
-
-    }
-
 
 </script>
 </body>

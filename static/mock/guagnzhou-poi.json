@@ -1,1 +1,265 @@
-{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.339812,23.120654]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.342019,23.126339]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.324726,23.124783]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.349599,23.111314]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.367629,23.127828]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.352911,23.138859]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.357621,23.124106]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.36314,23.113868]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.336574,23.133968]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.323033,23.133156]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.330613,23.141615]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.347833,23.128081]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.357768,23.135254]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.373074,23.135389]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.341799,23.140735]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.376754,23.12287]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.339812,23.103648]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.356222,23.100263]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.353426,23.150615]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[113.344742,23.151833]}}]}
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"美宜佳东方广场店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.339812,
+                    23.120654
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"星巴克天河城店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.342019,
+                    23.126339
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"麦当劳北京路店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.324726,
+                    23.124783
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"海底捞万达广场店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.349599,
+                    23.111314
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"必胜客中环广场店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.367629,
+                    23.127828
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"真功夫白云机场店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.352911,
+                    23.138859
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"屈臣氏友谊商店店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.357621,
+                    23.124106
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"肯德基花城汇店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.36314,
+                    23.113868
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"7-11 珠江新城店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.336574,
+                    23.133968
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"永辉超市大悦城店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.323033,
+                    23.133156
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"大润发百佳商场店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.330613,
+                    23.141615
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"好又多世纪联华店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.347833,
+                    23.128081
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"国美电器正佳广场店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.357768,
+                    23.135254
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"苏宁易购万象城店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.373074,
+                    23.135389
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"华为授权体验店太古汇店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.341799,
+                    23.140735
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"苹果专卖店高德置地店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.376754,
+                    23.12287
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"安踏体育王府井店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.339812,
+                    23.103648
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"耐克专卖店天环广场店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.356222,
+                    23.100263
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"周大福珠宝金店新大新百货店"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.353426,
+                    23.150615
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name":"老凤祥银楼广百百货店 "
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.344742,
+                    23.151833
+                ]
+            }
+        }
+    ]
+}
