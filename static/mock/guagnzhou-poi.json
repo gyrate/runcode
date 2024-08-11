@@ -4,7 +4,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"美宜佳东方广场店"
+                "name": "美宜佳东方广场店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -17,7 +18,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"星巴克天河城店"
+                "name": "星巴克天河城店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -30,7 +32,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"麦当劳北京路店"
+                "name": "麦当劳北京路店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -43,7 +46,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"海底捞万达广场店"
+                "name": "海底捞万达广场店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -56,7 +60,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"必胜客中环广场店"
+                "name": "必胜客中环广场店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -69,7 +74,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"真功夫白云机场店"
+                "name": "真功夫白云机场店",
+                "scale": 1.5
             },
             "geometry": {
                 "type": "Point",
@@ -82,7 +88,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"屈臣氏友谊商店店"
+                "name": "屈臣氏友谊商店店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -95,7 +102,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"肯德基花城汇店"
+                "name": "肯德基花城汇店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -108,7 +116,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"7-11 珠江新城店"
+                "name": "7-11 珠江新城店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -121,7 +130,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"永辉超市大悦城店"
+                "name": "永辉超市大悦城店",
+                "scale": 1.5
             },
             "geometry": {
                 "type": "Point",
@@ -134,7 +144,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"大润发百佳商场店"
+                "name": "大润发百佳商场店",
+                "scale": 1.5
             },
             "geometry": {
                 "type": "Point",
@@ -147,7 +158,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"好又多世纪联华店"
+                "name": "好又多世纪联华店",
+                "scale": 1.2
             },
             "geometry": {
                 "type": "Point",
@@ -160,7 +172,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"国美电器正佳广场店"
+                "name": "国美电器正佳广场店",
+                "scale": 1.2
             },
             "geometry": {
                 "type": "Point",
@@ -173,7 +186,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"苏宁易购万象城店"
+                "name": "苏宁易购万象城店",
+                "scale": 1.2
             },
             "geometry": {
                 "type": "Point",
@@ -186,7 +200,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"华为授权体验店太古汇店"
+                "name": "华为授权体验店太古汇店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -199,7 +214,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"苹果专卖店高德置地店"
+                "name": "苹果专卖店高德置地店",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",
@@ -212,7 +228,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"安踏体育王府井店"
+                "name": "安踏体育王府井店",
+                "scale": 2
             },
             "geometry": {
                 "type": "Point",
@@ -225,7 +242,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"耐克专卖店天环广场店"
+                "name": "耐克专卖店天环广场店",
+                "scale": 2
             },
             "geometry": {
                 "type": "Point",
@@ -238,7 +256,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"周大福珠宝金店新大新百货店"
+                "name": "周大福珠宝金店新大新百货店",
+                "scale": 1.2
             },
             "geometry": {
                 "type": "Point",
@@ -251,7 +270,8 @@
         {
             "type": "Feature",
             "properties": {
-                "name":"老凤祥银楼广百百货店 "
+                "name": "老凤祥银楼广百百货店 ",
+                "scale": 1
             },
             "geometry": {
                 "type": "Point",

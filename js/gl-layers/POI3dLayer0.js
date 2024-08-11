@@ -66,13 +66,13 @@ class POI3dLayer0 extends Layer {
 
         // 给模型换一种材质
         const material = new THREE.MeshStandardMaterial({
-            color: 0xfbdd4f, //自身颜色
+            color: 0x1171ee, //自身颜色
             transparent: true,
-            opacity: 0.8, //透明度
+            opacity: 1, //透明度
             metalness: 0.0, //金属性
             roughness: 0.5, //粗糙度
-            emissive: new THREE.Color('#ff6302'), //发光颜色
-            emissiveIntensity: 0.5,
+            // emissive: new THREE.Color('#1171ee'), //发光颜色
+            // emissiveIntensity: 0.2,
             // blending: THREE.AdditiveBlending
         })
         model.material = material
@@ -95,7 +95,7 @@ class POI3dLayer0 extends Layer {
         texture.repeat.set(1 / this._frameX, 1)
 
         const material = new THREE.MeshStandardMaterial({
-            color: 0xfbdd4f,
+            color: 0x1171ee,
             map: texture,
             transparent: true,
             opacity: 0.8,

@@ -64,7 +64,7 @@ class POI3dLayer0 extends Layer {
     async onReady() {
 
         // debugger 增加辅助坐标轴帮助定位
-        this.createHelper()
+        // this.createHelper()
 
         // 加载主体模型
         await this.loadMainMesh()
@@ -179,7 +179,7 @@ class POI3dLayer0 extends Layer {
             const [x, y] = this._data[i].coords
 
             // 每个实例的尺寸
-            const newSize = this._size
+            const newSize = this._size * this._data[i].scale
             this._dummy.scale.set(newSize, newSize, newSize)
             // 更新每个实例的位置
             this._dummy.position.set(x, y, i)
@@ -189,10 +189,15 @@ class POI3dLayer0 extends Layer {
             instancedMesh.setMatrixAt(i, this._dummy.matrix)
             console.log(this._dummy.matrix)
             // 设置实例 颜色 
-            instancedMesh.setColorAt(i, new THREE.Color(i % 2 == 0 ? 0xfbdd4f : 0xff0000))
+            instancedMesh.setColorAt(i, new THREE.Color(this.getColor(i)))
         }
         // // 强制更新实例
         instancedMesh.instanceMatrix.needsUpdate = true
+    }
+
+    // 获取实例颜色示例
+    getColor(index, data){
+        return index % 2 == 0 ? 0xfbdd4f : 0xff0000
     }
 
     /**
@@ -274,7 +279,7 @@ class POI3dLayer0 extends Layer {
         this._data.forEach((item, index) => {
             const [x, y] = item.coords
             this.updateMatrixAt(main, {
-                size: this._size,
+                size:  item.scale * this._size,
                 position: [x, y, 0],
                 rotation: [0, 0, this._currentAngle]
             }, index)

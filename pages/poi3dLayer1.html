@@ -107,11 +107,14 @@
 
             const res = data.features.map((item, index) => {
                 const [lng, lat] = item.geometry.coordinates
+                const { name, scale} = item.properties
                 return {
                     lngLat: [lng, lat],
                     modelId: 'warning',
                     id: index,
                     type: index % 4,
+                    name,
+                    scale
                 }
             })
 
