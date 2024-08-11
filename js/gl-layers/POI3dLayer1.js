@@ -25,6 +25,11 @@ class POI3dLayer0 extends Layer {
     // 主体旋转角度
     _currentAngle = 0
 
+    _size = 10
+
+    // 最大旋转角度
+    _maxAngle = Math.PI * 2
+
     // 用于做定位和移动的介质
     _dummy = new THREE.Object3D()
 
@@ -133,7 +138,7 @@ class POI3dLayer0 extends Layer {
                 // 获取模型
                 const mesh = gltf.scene.children[0]
                 // 放大模型以便观察
-                const size = 10
+                const size = this._size
                 mesh.scale.set(size, size, size)
                 // this.scene.add(mesh)
 
@@ -172,9 +177,9 @@ class POI3dLayer0 extends Layer {
         for (let i = 0; i < _data.length; i++) {
             // 获得转换后的坐标
             const [x, y] = this._data[i].coords
-    
+
             // 每个实例的尺寸
-            const newSize = 10
+            const newSize = this._size
             this._dummy.scale.set(newSize, newSize, newSize)
             // 更新每个实例的位置
             this._dummy.position.set(x, y, i)
@@ -184,7 +189,7 @@ class POI3dLayer0 extends Layer {
             instancedMesh.setMatrixAt(i, this._dummy.matrix)
             console.log(this._dummy.matrix)
             // 设置实例 颜色 
-            instancedMesh.setColorAt(i, new THREE.Color(0xfbdd4f))
+            instancedMesh.setColorAt(i, new THREE.Color(i % 2 == 0 ? 0xfbdd4f : 0xff0000))
         }
         // // 强制更新实例
         instancedMesh.instanceMatrix.needsUpdate = true
@@ -205,6 +210,30 @@ class POI3dLayer0 extends Layer {
         this.scene.add(dLight)
     }
 
+    /**
+     * @description 更新指定网格体的单个示例的变化矩阵
+     * @param {instancedMesh} Mesh 网格体
+     * @param {Object} transform 变化设置，比如{size:1, position:[0,0,0], rotation:[0,0,0]}
+     * @param {Number} index 网格体实例索引值
+     */
+    updateMatrixAt(mesh, transform, index) {
+        if (!mesh) {
+            return
+        }
+        const { size, position, rotation } = transform
+        const { _dummy } = this
+        // 更新尺寸
+        _dummy.scale.set(size, size, size)
+        // 更新dummy的位置和旋转角度
+        _dummy.position.set(position[0], position[1], position[2])
+        _dummy.rotation.x = rotation[0]
+        _dummy.rotation.y = rotation[1]
+        _dummy.rotation.z = rotation[2]
+        _dummy.updateMatrix()
+        mesh.setMatrixAt(index, _dummy.matrix)
+    }
+
+
     // 逐帧更新图层
     update() {
 
@@ -217,14 +246,22 @@ class POI3dLayer0 extends Layer {
             this._offset += 0.6
             texture.offset.x = Math.floor(this._offset) / this._frameX
         }
-        //todo: 更新主体旋转角度
+
+        // 更新主体旋转角度
+        this._data.forEach((item, index) => {
+            const [x, y] = item.coords
+            this.updateMatrixAt(main, {
+                size: this._size,
+                position: [x, y, 0],
+                rotation: [0, 0, this._currentAngle]
+            }, index)
+        })
+        // 更新主体旋转角度
+        this._currentAngle = (this._currentAngle + 0.05) % this._maxAngle
 
         // 强制更新instancedMesh实例
         if (main?.instanceMatrix) {
             main.instanceMatrix.needsUpdate = true
-        }
-        if (tray?.instanceMatrix) {
-            tray.instanceMatrix.needsUpdate = true
         }
     }
 }
