@@ -57,7 +57,7 @@ class POI3dLayer0 extends Layer {
     if(config.size>0){
       this._size = config.size
     }
-    
+
     this.init();
   }
 
@@ -119,7 +119,7 @@ class POI3dLayer0 extends Layer {
   }
 
   /**
-   * @description 重新计算每个模型的目标尺寸
+   * @description 重新计算每个模型的目标尺寸系数
    * @private
    */
   refreshTransformData() {
