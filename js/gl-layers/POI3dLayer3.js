@@ -36,9 +36,8 @@ class POI3dLayer0 extends Layer {
     index: null,
   };
 
-
-  _resolution = 0
-  _sizeMap = {}
+  _resolution = 0;
+  _sizeMap = {};
 
   /**
    * 创建一个实例
@@ -54,13 +53,18 @@ class POI3dLayer0 extends Layer {
       ...config,
     };
     super(conf);
-    this.init()
+
+    if(config.size>0){
+      this._size = config.size
+    }
+    
+    this.init();
   }
 
-  init(){
+  init() {
     this.initData(this._conf.data);
-    this.bindMethods(['handelViewChange'])
-    this.refreshTransformData()
+    this.bindMethods(["handelViewChange"]);
+    this.refreshTransformData();
   }
 
   // 处理转换图层基础数据的地理坐标为空间坐标
@@ -119,7 +123,7 @@ class POI3dLayer0 extends Layer {
    * @private
    */
   refreshTransformData() {
-    this._resolution = this.getResolution() ;
+    this._resolution = this.getResolution();
     this._sizeMap["main"] = this._resolution * 1;
     this._sizeMap["tray"] = this._resolution * 1;
   }
@@ -145,7 +149,7 @@ class POI3dLayer0 extends Layer {
       this.updateMatrixAt(
         mainMesh,
         {
-          size: _sizeMap.main,
+          size: _sizeMap.main ,
           position: [x, y, 0],
           rotation: [0, 0, 0],
         },
@@ -155,7 +159,7 @@ class POI3dLayer0 extends Layer {
       this.updateMatrixAt(
         trayMesh,
         {
-          size: _sizeMap.tray,
+          size: _sizeMap.tray ,
           position: [x, y, 0],
           rotation: [0, 0, 0],
         },
@@ -179,13 +183,13 @@ class POI3dLayer0 extends Layer {
 
     // 给模型换一种材质
     const material = new THREE.MeshStandardMaterial({
-      color: 0xfbdd4f, //自身颜色
+    //   color: 0xffffff, //自身颜色
       transparent: true,
       opacity: 0.8, //透明度
       metalness: 0.0, //金属性
-      roughness: 0.5, //粗糙度
-      emissive: new THREE.Color("#ff6302"), //发光颜色
-      emissiveIntensity: 0.5,
+      roughness: 0.0, //粗糙度
+    //   emissive: new THREE.Color("#ffffff"), //发光颜色
+    //   emissiveIntensity: 0.1,
       // blending: THREE.AdditiveBlending
     });
 
@@ -211,7 +215,7 @@ class POI3dLayer0 extends Layer {
     texture.repeat.set(1 / this._frameX, 1);
 
     const material = new THREE.MeshStandardMaterial({
-      color: 0xfbdd4f,
+      color: 0xffffff,
       map: texture,
       transparent: true,
       opacity: 0.8,
@@ -236,7 +240,6 @@ class POI3dLayer0 extends Layer {
           const size = this._size;
           mesh.scale.set(size, size, size);
           // this.scene.add(mesh)
-
           resolve(mesh);
         },
         function (xhr) {},
@@ -264,7 +267,7 @@ class POI3dLayer0 extends Layer {
       this._instanceMap[key] = mesh;
 
       // 实例化
-      this.updateInstancedMesh(mesh,key);
+      this.updateInstancedMesh(mesh, key);
       scene.add(mesh);
     }
   }
@@ -276,7 +279,7 @@ class POI3dLayer0 extends Layer {
       const [x, y] = this._data[i].coords;
 
       // 每个实例的尺寸
-      const newSize = this._size ; //* this._sizeMap[]
+      const newSize = this._size; //* this._sizeMap[]
       this._dummy.scale.set(newSize, newSize, newSize);
       // 更新每个实例的位置
       this._dummy.position.set(x, y, i);
@@ -286,13 +289,15 @@ class POI3dLayer0 extends Layer {
       instancedMesh.setMatrixAt(i, this._dummy.matrix);
       console.log(this._dummy.matrix);
       // 设置实例 颜色
-      instancedMesh.setColorAt(
-        i,
-        new THREE.Color(i % 2 == 0 ? 0xfbdd4f : 0xff0000)
-      );
+      instancedMesh.setColorAt(i, new THREE.Color(this.getColor(i)));
     }
-    // // 强制更新实例
+    // 强制更新实例
     instancedMesh.instanceMatrix.needsUpdate = true;
+  }
+
+  // 获取实例颜色示例
+  getColor(index, data) {
+    return index % 2 == 0 ? 0x00ffff : 0xfff200;
   }
 
   /**
@@ -389,7 +394,7 @@ class POI3dLayer0 extends Layer {
       this.updateMatrixAt(
         mainMesh,
         {
-          size: this._size,
+          size: this._conf.PDI ? this._sizeMap.main: this._size,
           position: [x, y, 0],
           rotation: [0, 0, 0],
         },
@@ -439,10 +444,11 @@ class POI3dLayer0 extends Layer {
     // 鼠标悬浮对象
     if (_lastPickIndex.index !== null) {
       const [x, y] = this._data[_lastPickIndex.index].coords;
+      const newSize = this._conf.PDI ? this._sizeMap.main: this._size
       this.updateMatrixAt(
         main,
         {
-          size: _size * 1.2, // 选中的对象放大1.2倍
+          size: newSize * 1.2, // 选中的对象放大1.2倍
           position: [x, y, 0],
           rotation: [0, 0, this._currentAngle],
         },

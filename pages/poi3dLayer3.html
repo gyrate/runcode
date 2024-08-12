@@ -38,6 +38,7 @@
             color: #33E2FFFF;
             background-color: #2c3e50;
             white-space: nowrap;
+            transition: all .4s ease-in-out;
         }
     </style>
 </head>
@@ -91,7 +92,7 @@
                 viewMode: '3D',
                 dom: container.value,
                 showBuildingBlock: false,
-                center: [113.326961, 23.141248],
+                center: [113.350642, 23.135019],
                 zoom: 13.5,
                 mapStyle: 'amap://styles/dark',
                 skyColor: 'rgba(140, 176, 222, 1)'
@@ -144,6 +145,7 @@
             const layer = new POI3dLayer({
                 map,
                 data: { features },
+                size: 20,
                 PDI: false
             })
 
