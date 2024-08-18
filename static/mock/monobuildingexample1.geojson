@@ -1,0 +1,305 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 8,
+                "name": "商业办公楼A",
+                "regions": [
+                    {
+                        "id": 0,
+                        "bottomAltitude": 0,
+                        "extendAltitude": 5,
+                        "floor": 1,
+                        "name": "一楼大堂",
+                        "belong": "NS物业"
+                    },
+                    {
+                        "id": 1,
+                        "bottomAltitude": 5,
+                        "extendAltitude": 4.2,
+                        "floor": 2,
+                        "name": "行政层",
+                        "belong": "NS物业"
+                    },
+                    {
+                        "id": 2,
+                        "bottomAltitude": 9.2,
+                        "extendAltitude": 4.2,
+                        "floor": 3,
+                        "name": "办公层3",
+                        "belong": "大米科技公司"
+                    },
+                    {
+                        "id": 3,
+                        "bottomAltitude": 13.4,
+                        "extendAltitude": 4.2,
+                        "floor": 4,
+                        "name": "办公层4",
+                        "belong": "大米科技公司"
+                    },
+                    {
+                        "id": 4,
+                        "bottomAltitude": 17.6,
+                        "extendAltitude": 4.2,
+                        "floor": 5,
+                        "name": "办公层5",
+                        "belong": "大米科技公司"
+                    },
+                    {
+                        "id": 5,
+                        "bottomAltitude": 21.8,
+                        "extendAltitude": 4.2,
+                        "floor": 6,
+                        "name": "办公层6",
+                        "belong": "大米科技公司"
+                    },
+                    {
+                        "id": 6,
+                        "bottomAltitude": 26,
+                        "extendAltitude": 4.2,
+                        "floor": 7,
+                        "name": "办公层7",
+                        "belong": "GBA Technology Company"
+                    },
+                    {
+                        "id": 7,
+                        "bottomAltitude": 30.2,
+                        "extendAltitude": 4.2,
+                        "floor": 8,
+                        "name": "办公层8",
+                        "belong": "GBA Technology Company"
+                    },
+                    {
+                        "id": 8,
+                        "bottomAltitude": 34.4,
+                        "extendAltitude": 4.2,
+                        "floor": 9,
+                        "name": "办公层9",
+                        "belong": "GBA Technology Company"
+                    },
+                    {
+                        "id": 9,
+                        "bottomAltitude": 38.6,
+                        "extendAltitude": 4.2,
+                        "floor": 10,
+                        "name": "办公层10",
+                        "belong": "中科智城信息技术有限公司"
+                    },
+                    {
+                        "id": 10,
+                        "bottomAltitude": 42.8,
+                        "extendAltitude": 4.2,
+                        "floor": 11,
+                        "name": "办公层11",
+                        "belong": "中科智城信息技术有限公司"
+                    },
+                    {
+                        "id": 11,
+                        "bottomAltitude": 47,
+                        "extendAltitude": 4.2,
+                        "floor": 12,
+                        "name": "办公层12",
+                        "belong": "中科智城信息技术有限公司"
+                    },
+                    {
+                        "id": 12,
+                        "bottomAltitude": 51.2,
+                        "extendAltitude": 4.2,
+                        "floor": 13,
+                        "name": "办公层13",
+                        "belong": "中科智城信息技术有限公司"
+                    },
+                    {
+                        "id": 13,
+                        "bottomAltitude": 55.4,
+                        "extendAltitude": 10,
+                        "floor": 14,
+                        "name": "办公层14",
+                        "belong": "中科智城信息技术有限公司"
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    [
+                        [
+                            [
+                                113.535740288692438,
+                                22.798752873557206
+                            ],
+                            [
+                                113.535904448344297,
+                                22.799005811367838
+                            ],
+                            [
+                                113.536196029368952,
+                                22.798849332947139
+                            ],
+                            [
+                                113.536025438614601,
+                                22.798595683214387
+                            ],
+                            [
+                                113.535740288692438,
+                                22.798752873557206
+                            ]
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 9,
+                "name": "商业办公楼B",
+                "regions": [
+                    {
+                        "id": 0,
+                        "bottomAltitude": 0,
+                        "extendAltitude": 5,
+                        "floor": 1,
+                        "name": "一楼大堂",
+                        "belong": "NS物业"
+                    },
+                    {
+                        "id": 1,
+                        "bottomAltitude": 5,
+                        "extendAltitude": 4.2,
+                        "floor": 2,
+                        "name": "行政层",
+                        "belong": "NS物业"
+                    },
+                    {
+                        "id": 2,
+                        "bottomAltitude": 9.2,
+                        "extendAltitude": 4.2,
+                        "floor": 3,
+                        "name": "办公层3",
+                        "belong": "大米科技公司"
+                    },
+                    {
+                        "id": 3,
+                        "bottomAltitude": 13.4,
+                        "extendAltitude": 4.2,
+                        "floor": 4,
+                        "name": "办公层4",
+                        "belong": "大米科技公司"
+                    },
+                    {
+                        "id": 4,
+                        "bottomAltitude": 17.6,
+                        "extendAltitude": 4.2,
+                        "floor": 5,
+                        "name": "办公层5",
+                        "belong": "大米科技公司"
+                    },
+                    {
+                        "id": 5,
+                        "bottomAltitude": 21.8,
+                        "extendAltitude": 4.2,
+                        "floor": 6,
+                        "name": "办公层6",
+                        "belong": "大米科技公司"
+                    },
+                    {
+                        "id": 6,
+                        "bottomAltitude": 26,
+                        "extendAltitude": 4.2,
+                        "floor": 7,
+                        "name": "办公层7",
+                        "belong": "GBA Technology Company"
+                    },
+                    {
+                        "id": 7,
+                        "bottomAltitude": 30.2,
+                        "extendAltitude": 4.2,
+                        "floor": 8,
+                        "name": "办公层8",
+                        "belong": "GBA Technology Company"
+                    },
+                    {
+                        "id": 8,
+                        "bottomAltitude": 34.4,
+                        "extendAltitude": 4.2,
+                        "floor": 9,
+                        "name": "办公层9",
+                        "belong": "GBA Technology Company"
+                    },
+                    {
+                        "id": 9,
+                        "bottomAltitude": 38.6,
+                        "extendAltitude": 4.2,
+                        "floor": 10,
+                        "name": "办公层10",
+                        "belong": "中科智城信息技术有限公司"
+                    },
+                    {
+                        "id": 10,
+                        "bottomAltitude": 42.8,
+                        "extendAltitude": 4.2,
+                        "floor": 11,
+                        "name": "办公层11",
+                        "belong": "中科智城信息技术有限公司"
+                    },
+                    {
+                        "id": 11,
+                        "bottomAltitude": 47,
+                        "extendAltitude": 4.2,
+                        "floor": 12,
+                        "name": "办公层12",
+                        "belong": "中科智城信息技术有限公司"
+                    },
+                    {
+                        "id": 12,
+                        "bottomAltitude": 51.2,
+                        "extendAltitude": 4.2,
+                        "floor": 13,
+                        "name": "办公层13",
+                        "belong": "中科智城信息技术有限公司"
+                    },
+                    {
+                        "id": 13,
+                        "bottomAltitude": 55.4,
+                        "extendAltitude": 10,
+                        "floor": 14,
+                        "name": "办公层14",
+                        "belong": "中科智城信息技术有限公司"
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    [
+                        [
+                            [
+                                113.536322985700309,
+                                22.799657445599117
+                            ],
+                            [
+                                113.53648482014458,
+                                22.799914668780211
+                            ],
+                            [
+                                113.536769425546652,
+                                22.799768909037184
+                            ],
+                            [
+                                113.536603870770307,
+                                22.799508684637829
+                            ],
+                            [
+                                113.536322985700309,
+                                22.799657445599117
+                            ]
+                        ]
+                    ]
+                ]
+            }
+        }
+    ]
+}

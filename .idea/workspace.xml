@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6cc1c4f2-dbf0-468e-9d0e-0f89b35bc1e0" name="Changes" comment="" />
+    <list default="true" id="6cc1c4f2-dbf0-468e-9d0e-0f89b35bc1e0" name="Changes" comment="feat: 修改说明文件">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/gl-layers/gl-layers.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/gl-layers/gl-layers.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -20,10 +31,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/js" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -31,9 +43,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\develop\github\runcode" />
       <recent name="E:\develop\github\runcode\js" />
-      <recent name="E:\develop\github\runcode\src" />
+      <recent name="E:\develop\github\runcode\js\gl-layers" />
+      <recent name="E:\develop\github\runcode\js\utils" />
+      <recent name="E:\develop\github\runcode\js\gl-layers\core" />
+      <recent name="E:\develop\github\runcode\static\tiles" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\develop\github\runcode\views" />
@@ -50,6 +64,8 @@
       <option name="presentableId" value="Default" />
       <updated>1718008373050</updated>
       <workItem from="1718008380054" duration="854000" />
+      <workItem from="1723946971834" duration="5347000" />
+      <workItem from="1723952828747" duration="100000" />
     </task>
     <task id="LOCAL-00001" summary="test code commit">
       <created>1718008460456</created>
@@ -72,7 +88,28 @@
       <option name="project" value="LOCAL" />
       <updated>1718008960330</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: 添加图层 MonoBuildingLayer">
+      <created>1723951086912</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1723951086912</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: 添加图层 TilesLayer">
+      <created>1723952247059</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1723952247059</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: 修改说明文件">
+      <created>1723952573391</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1723952573391</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -83,6 +120,9 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="test code commit" />
     <MESSAGE value="amap-test-gl-layers" />
-    <option name="LAST_COMMIT_MESSAGE" value="amap-test-gl-layers" />
+    <MESSAGE value="feat: 添加图层 MonoBuildingLayer" />
+    <MESSAGE value="feat: 添加图层 TilesLayer" />
+    <MESSAGE value="feat: 修改说明文件" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 修改说明文件" />
   </component>
 </project>

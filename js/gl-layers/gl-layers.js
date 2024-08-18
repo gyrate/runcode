@@ -2,7 +2,8 @@ import * as THREE from 'three'
 import BaseUtils from './BaseUtils.js'
 
 export default class GLLayer extends BaseUtils {
-
+  // 图层唯一标识
+  id = null
   // 配置项
   _conf = {
     /**
@@ -69,6 +70,8 @@ export default class GLLayer extends BaseUtils {
     this._interactAble = config.interact || false
     this.customCoords = this.map.customCoords
 
+    this.id = config.id || new Date().getTime().toString()
+
     if (config.center) {
       this.updateCenter(config.center)
       this._center = config.center
@@ -114,6 +117,15 @@ export default class GLLayer extends BaseUtils {
     this.onReady()
     this._initInteract()
     this.animate()
+
+    /**
+     * 初始化完成，返回整个图层实例
+     * @event  Layer#complete
+     * @type {object}
+     * @property {Object} scene 图层场景
+     * @property {Object} camera 图层相机
+     */
+    this.handleEvent('complete', this)
   }
 
   /**
