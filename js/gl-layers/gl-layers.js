@@ -95,7 +95,7 @@ export default class GLLayer extends BaseUtils {
     }
 
     // onRay方法 防抖动
-    this.handleOnRay = _.debounce(this.onRay, 100, true)
+    this.handleOnRay = _.debounce(this.onRay, 10, true)
      // 绑定this
      this.bindMethods(['animate', 'resizeLayer', 'handleOnRay'])
 
@@ -501,6 +501,33 @@ export default class GLLayer extends BaseUtils {
     const [x, y, z] = position
     axesHelper.position.set(x, y, z)
     this.scene.add(axesHelper)
+  }
+
+  /**
+   * @public
+   * @description 显示当前图层
+   */
+  show () {
+    if (this.layer) {
+      if (this._conf.alone === false) {
+        this.layer.show()
+      }
+      this.reviseVisible(true)
+    }
+  }
+
+  /**
+   * @public
+   * @description 隐藏当前图层
+   */
+  hide () {
+    if (this.layer) {
+      // debugger
+      if (this._conf.alone === false) {
+        this.layer.hide()
+      }
+      this.reviseVisible(false)
+    }
   }
 
 }

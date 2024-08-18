@@ -8,80 +8,97 @@
   <link href="../css/reset.css" rel="stylesheet">
   <title>test gl-layers</title>
   <style>
-      html, body {
-          width: 100%;
-          height: 100%;
-      }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
 
-      .container {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-      }
-      .mouse_hover{
-        cursor: pointer !important;
-      }
-      .tip {
-          position: absolute;
-          top: -999px;
-          left:  -999px;
-          z-index: 999;
-          padding: 6px;
-          min-width: 200px;
-          border-left: 4px solid #0d8ce7;
-          color: #333;
-          background-color: #f0f0f0;
-          transition: all 0.2s ease-in-out;
-          word-break: break-all;
-          border-radius: 4px;
-          box-shadow: 0 0 8px rgba(8, 20, 26, 0.3);
-      }
+    .container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
 
-      .tip li {
-          padding: .2em .5em;
-          white-space: nowrap;
-      }
+    .mouse_hover {
+      cursor: pointer !important;
+    }
 
-      .toolbar {
-          position: fixed;
-          top: 2em;
-          left: 2em;
-          z-index: 999;
-      }
+    .tip {
+      position: absolute;
+      top: -999px;
+      left: -999px;
+      z-index: 999;
+      padding: 6px;
+      min-width: 200px;
+      border-left: 4px solid #0d8ce7;
+      color: #333;
+      background-color: #f0f0f0;
+      transition: all 0.2s ease-in-out;
+      word-break: break-all;
+      border-radius: 4px;
+      box-shadow: 0 0 8px rgba(8, 20, 26, 0.3);
+    }
 
-      .toolbar-group {
-          margin: 0 .2em;
-          display: inline-block;
-      }
+    .tip li {
+      padding: .2em .5em;
+      white-space: nowrap;
+    }
+
+    .toolbar {
+      position: fixed;
+      top: 2em;
+      left: 2em;
+      z-index: 999;
+    }
+
+    .toolbar-group {
+      margin: 0 .2em;
+      display: inline-block;
+    }
+
+    .building-mark {
+      padding: 1.0em 0;
+      width: 212px;
+      height: 76px;
+      box-sizing: border-box;
+      background: transparent url('../static/image/map/marker-bg1.png') center center no-repeat;
+      text-align: center;
+      color: #fff;
+      font-size: 22px;
+      font-weight: bolder;
+
+    }
   </style>
 </head>
 
 <body>
-<div id="container" class="container"></div>
+  <div id="container" class="container"></div>
 
-<div id="tip" class="tip">
-  <ul></ul>
-</div>
-
-<div class="toolbar">
-  <div class="toolbar-group">
-    <button @click="hideLayers('tilesLayer', 'show')">显示3D瓦片图层</button>
-    <button @click="hideLayers('tilesLayer', 'hide')">隐藏3D瓦片图层</button>
+  <div id="tip" class="tip">
+    <ul></ul>
   </div>
-  <div class="toolbar-group">
-    <button @click="hideLayers('monoLayer', 'show')">显示建筑单体化</button>
-    <button @click="hideLayers('monoLayer', 'hide')">隐藏建筑单体化</button>
+
+  <div class="toolbar">
+    <div class="toolbar-group">
+      <button onclick="toggleLayer('tilesLayer', 'show')">显示3D瓦片图层</button>
+      <button onclick="toggleLayer('tilesLayer', 'hide')">隐藏3D瓦片图层</button>
+    </div>
+    <div class="toolbar-group">
+      <button onclick="toggleLayer('monoLayer', 'show')">显示建筑单体化</button>
+      <button onclick="toggleLayer('monoLayer', 'hide')">隐藏建筑单体化</button>
+    </div>
+    <div class="toolbar-group">
+      <button onclick="focusScene()">聚焦主场景</button>
+      <!--    <button @click="toggleLayer('buildingLayer', 'show')">显示建筑白模</button>-->
+      <!--    <button @click="toggleLayer('buildingLayer', 'hide')">隐藏建筑白模</button>-->
+    </div>
   </div>
-  <!--  <div class="toolbar-group">-->
-  <!--    <button @click="hideLayers('buildingLayer', 'show')">显示建筑白模</button>-->
-  <!--    <button @click="hideLayers('buildingLayer', 'hide')">隐藏建筑白模</button>-->
-  <!--  </div>-->
-</div>
 
 
-<script type="importmap">
+  <script type="importmap">
   {
     "imports": {
       "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
@@ -90,153 +107,220 @@
     }
   }
 
-
-
 </script>
-<script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.16/lodash.min.js"></script>
-<script src="../js/3dTilesRenderer.js"></script>
-<script src="../js/axios.min.js"></script>
-<script type="module">
-  import * as THREE from 'three'
-  import {initMap, getMap} from '../js/mainMap2.js'
-  import GLlayer from '../js/gl-layers/index.js'
-  import {fetchData} from "../js/utils/mock.js";
+  <script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.16/lodash.min.js"></script>
+  <script src="../js/3dTilesRenderer.js"></script>
+  <script src="../js/axios.min.js"></script>
+  <script type="module">
+    import * as THREE from 'three'
+    import { initMap, getMap } from '../js/mainMap2.js'
+    import GLlayer from '../js/gl-layers/index.js'
+    import { fetchData } from "../js/utils/mock.js";
 
-  const {
-    LayerManager,
-    TilesLayer,
-    MonoBuildingLayer,
-  } = GLlayer
+    const {
+      LayerManager,
+      TilesLayer,
+      MonoBuildingLayer,
+    } = GLlayer
 
-  let layer;
-  // 帧率监视
-  let stateMonitor;
+    let layer;
+    // 帧率监视
+    let stateMonitor;
 
-  // 图层管理
-  const layerManger = new LayerManager()
+    // 图层管理
+    const layerManger = new LayerManager()
 
-  const container = document.querySelector('#container')
-  const tip = document.querySelector('#tip')
+    const container = document.querySelector('#container')
+    const tip = document.querySelector('#tip')
 
-  const mapConf = {
-    name: '虚拟小区',
-    id: 'quarter',
-    center: [113.536206, 22.799285],
-    zoom: 18.35,
-    pitch: 62,
-    rotation: 0,
-    tilesURL: '../static/tiles/small-town/tileset.json',
-    modelData: []
-  }
+    // 默认地图状态
+    const mapConf = {
+      name: '虚拟小区',
+      id: 'quarter',
+      "center": [
+        113.536062,
+        22.800635
+      ],
+      "zoom": 16.89,
+      "pitch": 64.81818181818186,
+      "rotation": 17.499999999999993,
+      tilesURL: '../static/tiles/small-town/tileset.json',
+      modelData: []
+    }
 
-  async function main() {
-    await init()
-    await initLayers()
-    initStats()
-    animate()
-  }
+    // 聚焦时地图状态
+    const focusConf = {
+      "center": [
+        113.536184,
+        22.80024
+      ],
+      "zoom": 18.96,
+      "pitch": 72.81818181818178,
+      "rotation": 3.4000000000000012,
+      "duration": 1000
+    }
 
-  main()
+    async function main() {
+      await init()
+      await initLayers()
+      initStats()
+      animate()
+    }
 
-  async function init() {
-    const map = await initMap(Object.assign({
-      viewMode: '3D',
-      dom: container,
-      showBuildingBlock: true,
-      center: [113.551711, 22.762111],
-      zoom: 13.5,
-      mapStyle: 'amap://styles/light',
-      skyColor: 'rgba(140, 176, 222, 1)'
-    }, mapConf))
+    main()
 
-    // 添加卫星地图
-    // const satelliteLayer = new AMap.TileLayer.Satellite()
-    // map.add([satelliteLayer])
-    // 给底图添加css滤镜
-    // document.querySelector('.amap-layer').style = 'filter:brightness(0.5) saturate(0.3) grayscale(0.5);'
+    async function init() {
+      const map = await initMap(Object.assign({
+        viewMode: '3D',
+        dom: container,
+        showBuildingBlock: true,
+        center: [113.551711, 22.762111],
+        zoom: 13.5,
+        mapStyle: 'amap://styles/light',
+        skyColor: 'rgba(140, 176, 222, 1)'
+      }, mapConf))
 
-    map.on('zoomend', (event) => {
-      console.log(`当前地图zoom: ${map.getZoom()}`)
-    })
-    map.on('click', (event) => {
-      const {lng, lat} = event.lnglat
-      console.log([lng, lat])
-    })
-  }
+      // 添加卫星地图
+      // const satelliteLayer = new AMap.TileLayer.Satellite()
+      // map.add([satelliteLayer])
+      // 给底图添加css滤镜
+      // document.querySelector('.amap-layer').style = 'filter:brightness(0.5) saturate(0.3) grayscale(0.5);'
 
-  async function initLayers() {
-    await initTilesLayer()
-    // await initBuilding()
-    await initMonoBuilding()
-  }
+      map.on('zoomend', (event) => {
+        console.log(`当前地图zoom: ${map.getZoom()}`)
+      })
+      map.on('click', (event) => {
+        const { lng, lat } = event.lnglat
+        console.log([lng, lat])
+      })
+    }
 
-  // 添加3DTiles图层
-  async function initTilesLayer() {
-    const layer = new TilesLayer({
-      container,
-      id: 'tilesLayer',
-      map: getMap(),
-      center: mapConf.center,
-      zooms: [4, 22],
-      zoom: mapConf.zoom,
-      tilesURL: mapConf.tilesURL,
-      alone: false,
-      interact: false
-    })
+    async function initLayers() {
+      await initTilesLayer()
+      // await initBuilding()
+      await initMonoBuilding()
+      initMarkerLayer()
+    }
 
-    layer.on('complete', ({scene}) => {
-      // 调整模型的亮度
-      const aLight = new THREE.AmbientLight(0xffffff, 3.0)
-      scene.add(aLight)
-    })
 
-    layerManger.add(layer)
-  }
+    window.focusScene = function () {
+      const map = getMap()
+      const { zoom, center, duration, pitch, rotation } = focusConf
 
-  /**
-   * 建筑单体化图层
-   * @return {Promise<void>}
-   */
-  async function initMonoBuilding() {
-    const data = await fetchData('../static/mock/monobuildingexample1.geojson')
+      map.setZoomAndCenter(zoom, center, false, duration)
+      map.setPitch(pitch, false, duration)
+      map.setRotation(rotation, false, duration)
+    }
 
-    const layer = new MonoBuildingLayer({
-      id: 'monoLayer',
-      map: getMap(),
-      zooms: [4, 22],
-      center: mapConf.center,
-      data,
-      alone: false,
-      style: {
-        initial: {
-          color: '#2690ec',
-          opacity: 0.2
+    window.getMapView = function () {
+      const map = getMap()
+      const { lng, lat } = map.getCenter()
+      const zoom = map.getZoom()
+      const pitch = map.getPitch()
+      const rotation = map.getRotation()
+      console.log({
+        center: [lng, lat],
+        zoom,
+        pitch,
+        rotation
+      })
+    }
+
+
+    function initMarkerLayer() {
+
+      const map = getMap()
+
+      const markerData = [{
+        name: '商业办公楼A',
+        position: [113.535936, 22.798738, 60],
+      }, {
+        name: '商业办公楼B',
+        position: [113.536535, 22.799694, 60]
+      }]
+
+      markerData.forEach((item) => {
+        const { name, position } = item
+        var marker = new AMap.Marker({
+          position,
+          content: `<div class="building-mark">${name}</div>`,
+          anchor: 'bottom-center',
+          offset: [0, -90],
+          zooms: [18, 22],
+          map
+        });
+      })
+
+
+    }
+
+    // 添加3DTiles图层
+    async function initTilesLayer() {
+      const layer = new TilesLayer({
+        container,
+        id: 'tilesLayer',
+        map: getMap(),
+        center: [113.536206, 22.799285],
+        zooms: [4, 22],
+        zoom: mapConf.zoom,
+        tilesURL: mapConf.tilesURL,
+        alone: false,
+        interact: false
+      })
+
+      layer.on('complete', ({ scene }) => {
+        // 调整模型的亮度
+        const aLight = new THREE.AmbientLight(0xffffff, 3.0)
+        scene.add(aLight)
+      })
+
+      layerManger.add(layer)
+    }
+
+    /**
+     * 建筑单体化图层
+     * @return {Promise<void>}
+     */
+    async function initMonoBuilding() {
+      const data = await fetchData('../static/mock/monobuildingexample1.geojson')
+
+      const layer = new MonoBuildingLayer({
+        id: 'monoLayer',
+        map: getMap(),
+        zooms: [4, 22],
+        center: mapConf.center,
+        data,
+        alone: false,
+        style: {
+          initial: {
+            color: '#2690ec',
+            opacity: 0.2
+          },
+          hover: {
+            color: '#f3f051',
+            opacity: 0.8
+          }
         },
-        hover: {
-          color: '#f3f051',
-          opacity: 0.8
-        }
-      },
-      visible: true
-    })
-    layerManger.add(layer)
+        visible: true
+      })
+      layerManger.add(layer)
 
-    layer.on('pick', (event) => {
-      updateMarker(event)
-      console.log(event.attrs)
-    })
-  }
+      layer.on('pick', (event) => {
+        updateMarker(event)
+        console.log(event.attrs)
+      })
+    }
 
-  // 更新浮标
-  function updateMarker(event) {
-    const {screenX, screenY, attrs} = event
+    // 更新浮标
+    function updateMarker(event) {
+      const { screenX, screenY, attrs } = event
 
-    if (attrs) {
-      const {id, name, belong, bottomAltitude, extendAltitude} = attrs
-      tip.style.left = screenX + 20 + 'px'
-      tip.style.top = screenY + 10 + 'px'
-      tip.innerHTML = `
+      if (attrs) {
+        const { id, name, belong, bottomAltitude, extendAltitude } = attrs
+        tip.style.left = screenX + 20 + 'px'
+        tip.style.top = screenY + 10 + 'px'
+        tip.innerHTML = `
         <ul>
             <li>id: ${id}</li>
             <li>楼层: ${name}</li>
@@ -245,35 +329,38 @@
             <li>所属: ${belong}</li>
         </ul>
         `
-      tip.style.display = 'block'
+        tip.style.display = 'block'
         container.classList.add('mouse_hover')
-    } else {
-      tip.style.display = 'none'
-      container.classList.remove('mouse_hover')
+      } else {
+        tip.style.display = 'none'
+        container.classList.remove('mouse_hover')
+      }
     }
-  }
 
-  function initStats() {
-    stateMonitor = new Stats()
-    container.appendChild(stateMonitor.dom)
-    stateMonitor.dom.style.top = '10px'
-    stateMonitor.dom.style.right = '10px'
-    stateMonitor.dom.style.left = 'auto'
-  }
-
-
-  function animate() {
-    if (stateMonitor) {
-      stateMonitor.update()
+    function initStats() {
+      stateMonitor = new Stats()
+      container.appendChild(stateMonitor.dom)
+      stateMonitor.dom.style.top = '10px'
+      stateMonitor.dom.style.right = '10px'
+      stateMonitor.dom.style.left = 'auto'
     }
-    requestAnimationFrame(animate)
-  }
 
-  function hideLayers(layerId, toggle) {
-    const layer = layerManger.findLayerById(layerId)
-    layer[toggle]()
-  }
 
-</script>
+    function animate() {
+      if (stateMonitor) {
+        stateMonitor.update()
+      }
+      requestAnimationFrame(animate)
+    }
+
+    window.toggleLayer = function (layerId, toggle) {
+      const layer = layerManger.findLayerById(layerId)
+      layer[toggle]()
+    }
+
+
+
+  </script>
 </body>
+
 </html>
