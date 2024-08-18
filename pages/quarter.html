@@ -60,15 +60,16 @@
     }
 
     .building-mark {
-      padding: 1.0em 0;
-      width: 212px;
-      height: 76px;
+      padding: 0.7em 0;
+      width: 106px;
+      height: 38px;
       box-sizing: border-box;
       background: transparent url('../static/image/map/marker-bg1.png') center center no-repeat;
+      background-size: 100% 100%;
       text-align: center;
       color: #fff;
-      font-size: 22px;
-      font-weight: bolder;
+      font-size: 14px;
+      font-weight: bold;
 
     }
   </style>
@@ -246,7 +247,7 @@
           position,
           content: `<div class="building-mark">${name}</div>`,
           anchor: 'bottom-center',
-          offset: [0, -90],
+          offset: [0, -60],
           zooms: [18, 22],
           map
         });
@@ -263,7 +264,6 @@
         map: getMap(),
         center: [113.536206, 22.799285],
         zooms: [4, 22],
-        zoom: mapConf.zoom,
         tilesURL: mapConf.tilesURL,
         alone: false,
         interact: false
