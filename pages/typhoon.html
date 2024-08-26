@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+  <link href="../css/reset.css" rel="stylesheet">
+  <title>在高德地图渲染台风路径</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    .container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .typhoon-node {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #0bf;
+    }
+
+    .typhoon-node-t {
+      position: absolute;
+      top: -2em;
+      left: 1em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #fff;
+      background-color: rgba(3, 76, 159, .7);
+    }
+
+    .typhoon-node-t::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: -20px;
+      width: 0;
+      height: 0;
+      border: 10px solid transparent;
+      border-right-color: rgba(3, 76, 159, .7);
+    }
+
+    .typhoon-node-tip {
+      position: relative;
+      margin-left: 2em;
+      padding: .8em;
+      width: 170px;
+      min-height: 100px;
+      font-size: 12px;
+      text-align: left;
+      color: #fff;
+      background-color: rgb(18, 53, 103, .9);
+      transition: all .4s ease-in-out;
+    }
+
+    .typhoon-node-tip h3 {
+      margin: 0 0 .5em;
+      text-align: center;
+    }
+    .typhoon-node-tip li{
+      padding: .2em 0;
+    }
+    .typhoon-node-tip::after {
+      content: "";
+      position: absolute;
+      top: calc(50% - 5px);
+      left: -20px;
+      width: 0;
+      height: 0;
+      border: 10px solid transparent;
+      border-right-color: rgba(18, 53, 103, .9);
+    }
+  </style>
+</head>
+<body>
+<div id="container" class="container"></div>
+
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/"
+    }
+  }
+</script>
+
+<script src="../js/axios.min.js"></script>
+<script type="module">
+    import * as THREE from 'three'
+    import {initMap, getMap} from '../js/mainMap2.js'
+    import TyphoonLayer from "../js/typhoon/typhoonLayer.js";
+    import {fetchData} from "../js/utils/mock.js";
+
+    let typhoonLayer = null
+    let map = null
+
+    async function main() {
+        await init()
+        await initTyphoonLayer()
+        await updateTyphoonLayer({id: 0, name: '测试数据'});
+    }
+
+    main()
+
+    async function init() {
+        map = await initMap({
+            viewMode: '3D',
+            dom: document.getElementById('container'),
+            showBuildingBlock: false,
+            center: [113.551711, 22.762111],
+            zoom: 7,
+            mapStyle: 'amap://styles/dark'
+        })
+
+        // 添加卫星地图
+        const satelliteLayer = new AMap.TileLayer.Satellite()
+        map.add([satelliteLayer])
+
+        map.on('zoomend', (event) => {
+            console.log(`当前地图zoom: ${map.getZoom()}`)
+        })
+        map.on('click', (event) => {
+            const {lng, lat} = event.lnglat
+            console.log([lng, lat])
+        })
+    }
+
+    async function initTyphoonLayer() {
+        const layer = new TyphoonLayer({
+            map,
+            visible: true,
+        });
+        typhoonLayer = layer
+
+    }
+
+    async function updateTyphoonLayer({id, name}) {
+
+        const layer = typhoonLayer;
+        const {data} = await fetchData(`../static/mock/getTyphoonDetail${id}.geojson`);
+
+        layer.update({
+            id,
+            name,
+            paths: data
+        });
+        layer.show()
+    }
+</script>

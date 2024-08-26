@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6cc1c4f2-dbf0-468e-9d0e-0f89b35bc1e0" name="Changes" comment="feat: 修改说明文件">
+      <change afterPath="$PROJECT_DIR$/js/typhoon/BaseUtils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/typhoon/config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/typhoon/typhoonLayer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/utils/time.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/utils/tools.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/typhoon.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/image/map/icon/dot0.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/image/map/icon/typhoon-move.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/mock/getTyphoonDetail0.geojson" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/gl-layers/gl-layers.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/gl-layers/gl-layers.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,32 +34,37 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2hgGaq7P8edT4l0dxY9qZi7G32C" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/js" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "last_opened_file_path": "E:/github/runcode/static/image/map/icon",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\develop\github\runcode\js" />
-      <recent name="E:\develop\github\runcode\js\gl-layers" />
-      <recent name="E:\develop\github\runcode\js\utils" />
-      <recent name="E:\develop\github\runcode\js\gl-layers\core" />
-      <recent name="E:\develop\github\runcode\static\tiles" />
+      <recent name="E:\github\runcode\static\image\map\icon" />
+      <recent name="E:\github\runcode\js\utils" />
+      <recent name="E:\github\runcode\static\mock" />
+      <recent name="E:\github\runcode\static\image\map" />
+      <recent name="E:\github\runcode\js\typhoon" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\github\runcode\static\image\map\icon" />
       <recent name="E:\develop\github\runcode\views" />
       <recent name="E:\develop\github\runcode" />
       <recent name="E:\develop\github\runcode\image" />
@@ -66,6 +81,9 @@
       <workItem from="1718008380054" duration="854000" />
       <workItem from="1723946971834" duration="5347000" />
       <workItem from="1723952828747" duration="100000" />
+      <workItem from="1724118291851" duration="456000" />
+      <workItem from="1724124530551" duration="650000" />
+      <workItem from="1724634405132" duration="5382000" />
     </task>
     <task id="LOCAL-00001" summary="test code commit">
       <created>1718008460456</created>
@@ -124,5 +142,17 @@
     <MESSAGE value="feat: 添加图层 TilesLayer" />
     <MESSAGE value="feat: 修改说明文件" />
     <option name="LAST_COMMIT_MESSAGE" value="feat: 修改说明文件" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/pages/typhoon.html</url>
+          <line>151</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
