@@ -27,7 +27,7 @@ export const getType = type => {
  * @param {number} opacity
  * @returns {string}
  */
-export const hexToRgba = (hex, opacity = 1) => {
+export const hexToRGBA = (hex, opacity = 1) => {
     return 'rgba(' + parseInt('0x' + hex.slice(1, 3)) + ',' + parseInt('0x' + hex.slice(3, 5)) + ','
     + parseInt('0x' + hex.slice(5, 7)) + ',' + opacity + ')';
 };

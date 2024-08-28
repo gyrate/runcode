@@ -3,6 +3,7 @@ import BaseUtils from './BaseUtils.js';
 import {TyphoonConf} from './config.js';
 import {convertDecimalToDMS, throttle} from '../utils/tools.js';
 import {convertGMTToBeijingTime} from '../utils/time.js';
+import TyphoonMarker from './TyphoonMarker.js';
 
 class TyphoonLayer extends BaseUtils {
     data = [];
@@ -70,7 +71,7 @@ class TyphoonLayer extends BaseUtils {
             opacity: 1,
             zIndex: 999,
             visible,
-            zooms: [7, 22]
+            zooms
         });
 
         map.add(layer);
@@ -228,8 +229,7 @@ class TyphoonLayer extends BaseUtils {
      * @returns {AMap.Marker}
      */
     generateNode(item, extData) {
-        const {lat, lon, time, formatTime, grade, forecast} = item;
-        // const {color} = TyphoonConf.getLevel(grade);
+        const {lat, lon, time, formatTime, radius7_s, radius10_s, radius12_s} = item;
         const {map, infoTip, visible} = this;
         const size = 14;
 
@@ -241,7 +241,7 @@ class TyphoonLayer extends BaseUtils {
                 size: [size, size],
                 anchor: 'center'
             },
-            extData: {...extData, time},
+            extData: {...extData, radius7_s, radius10_s, radius12_s, time},
             text: {
                 content: formatTime,
                 direction: 'right',
@@ -265,42 +265,57 @@ class TyphoonLayer extends BaseUtils {
         });
         node.on('mouseout', throttle(e => {
             map.remove(infoTip);
-        }), 200);
+        }, 1000));
         node.on('click', event => {
-            const {time} = event.target.getExtData();
+            const extData = event.target.getExtData();
             const {lng, lat} = event.target.getPosition();
             // 渲染预测路径
-            const arr = this.paths[time];
+            const arr = this.paths[extData.time];
             this.clearForecast();
             this.renderForecast(arr);
-            this.updateMarker({time, lon: lng, lat});
+            this.updateMarker({...extData, lon: lng, lat});
         });
         return node;
     }
 
     updateMarker(item) {
-        const {lat, lon, time} = item;
-        const {visible, zooms} = this;
+        const {lat, lon, forecast} = item;
+        const {visible, zooms, map} = this;
+
+        if (forecast === true) {
+            // 不处理预测点
+            return;
+        }
+
+        const data = [];
+        const arr = [7, 10, 12];
+        arr.forEach(k => {
+            const name = `radius${k}_s`;
+            const radius = item[name].split(',');
+            if (radius.length >= 4) {
+                data.push({
+                    grade: k,
+                    radius: radius.map(v => {
+                        return parseFloat(v);
+                    })
+                });
+            }
+        });
 
         if (!this.focusMarker) {
-            const marker = new AMap.Marker({
-                content: `<div class="poi-tf">
-                    <img src="../static/image/map/icon/typhoon-move.gif">
-                    <div class="poi-tf-mt">${this.data.name} (${convertGMTToBeijingTime(time, 0)})</div>
-                </div>`,
-                // position: [parseFloat(lon), parseFloat(lat)],
-                zIndex: 20,
-                anchor: 'center',
+            this.focusMarker = new TyphoonMarker({
+                position: [parseFloat(lon), parseFloat(lat)],
+                size: 200,
+                map,
                 visible,
-                zooms
+                zooms,
+                data
             });
-            this.markers.push(marker);
-            this.map.add(marker);
-            this.focusMarker = marker;
+        } else {
+            this.focusMarker.setPosition([parseFloat(lon), parseFloat(lat)]);
+            this.focusMarker.setData(data);
         }
-        this.focusMarker.setPosition([parseFloat(lon), parseFloat(lat)]);
 
-        return this.focusMarker;
     }
 
     // 获取悬浮面板内容
@@ -336,7 +351,7 @@ class TyphoonLayer extends BaseUtils {
             path,
             strokeOpacity: 1,
             strokeColor: color,
-            strokeWeight: 2,
+            strokeWeight: 4,
             strokeStyle: strokeStyle || 'solid',
             strokeDasharray: [6, 6],
             zooms,
@@ -356,7 +371,7 @@ class TyphoonLayer extends BaseUtils {
      * @param val
      */
     _handleVisible(val) {
-        const {geometries, markers, markerLayer, infoTip} = this;
+        const {geometries, markers, markerLayer, focusMarker, infoTip} = this;
         const fn = val ? 'show' : 'hide';
 
         geometries.forEach(item => {
@@ -365,8 +380,12 @@ class TyphoonLayer extends BaseUtils {
         markers.forEach(item => {
             item[fn]();
         });
+        // 信息浮层
         infoTip[fn]();
+        // 路径节点
         markerLayer[fn]();
+        // 风圈图层
+        focusMarker[fn]();
 
         if (val === true) {
             // 调整地图视角到路径位置
@@ -387,7 +406,10 @@ class TyphoonLayer extends BaseUtils {
             this.markers[i].setMap(null);
         }
         this.markers = [];
-        this.focusMarker = null;
+        if (this.focusMarker) {
+            this.focusMarker.destroy()
+            this.focusMarker = null;
+        }
 
         this.markerLayer.clear();
     }

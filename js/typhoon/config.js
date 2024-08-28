@@ -38,5 +38,10 @@ export const TyphoonConf = {
         } else {
             return TyphoonConf.levelMap.SST;
         }
-    }
+    },
+    windCircle: {
+        7: {names: '7级风圈', color: '#fef301'},
+        10: {names: '10级风圈', color: '#fc8f2b'},
+        12: {names: '12级风圈', color: '#fe3ba3'},
+    },
 };
