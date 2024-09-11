@@ -56,6 +56,7 @@
       import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 
       import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+      import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
       import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
       let container,
@@ -87,18 +88,17 @@
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xe0e0e0);
-        scene.fog = new THREE.Fog(0xe0e0e0, 20, 100);
+        // scene.fog = new THREE.Fog(0xe0e0e0, 20, 100);
 
         clock = new THREE.Clock();
 
         // lights
-
-        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 3);
-        hemiLight.position.set(0, 20, 0);
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x8d8d8d, 2);
+        hemiLight.position.set(0, 100, 0);
         scene.add(hemiLight);
 
-        const dirLight = new THREE.DirectionalLight(0xffffff, 3);
-        dirLight.position.set(0, 20, 10);
+        const dirLight = new THREE.DirectionalLight(0xfff5d8, 1.5);
+        dirLight.position.set(0, 100, 10);
         scene.add(dirLight);
 
         // ground
@@ -116,21 +116,40 @@
         scene.add(grid);
 
         // model
+        // const loader = new GLTFLoader();
+        // loader.load(
+        //   "../static/gltf/xiaoz.glb",
+        //   function (gltf) {
+        //     model = gltf.scene;
+        //     scene.add(model);
+        //     createGUI(model, gltf.animations);
+        //   },
+        //   undefined,
+        //   function (e) {
+        //     console.error(e);
+        //   }
+        // );
 
-        const loader = new GLTFLoader();
-        loader.load(
-          "../static/gltf/RobotExpressive.glb",
-          function (gltf) {
-            model = gltf.scene;
-            scene.add(model);
+        const loader = new FBXLoader();
+        // loader.load("../static/gltf/Samba.fbx", function ( object ) {
+        loader.load("../static/gltf/xiaoz.fbx", function ( object ) {
+            const size = 0.05
+            object.scale.set(size, size, size);
 
-            createGUI(model, gltf.animations);
-          },
-          undefined,
-          function (e) {
-            console.error(e);
-          }
-        );
+            const index = object.children.findIndex(v=>v.name=="Light")
+            object.children.splice(index, 1)
+
+            object.children.forEach(element => {
+                const {material ,name } = element
+                if(['Retopo_ball','Retopo_face'].includes(name)){
+                    const material = element.material
+                    material.transparent = false
+                }
+            });
+
+            scene.add( object );
+            createGUI(object, object.animations)
+        } );
 
         renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -188,47 +207,45 @@
 
         // emotes
 
-        const emoteFolder = gui.addFolder("Emotes");
+        // const emoteFolder = gui.addFolder("Emotes");
+        // function createEmoteCallback(name) {
+        //   api[name] = function () {
+        //     fadeToAction(name, 0.2);
+        //     mixer.addEventListener("finished", restoreState);
+        //   };
+        //   emoteFolder.add(api, name);
+        // }
 
-        function createEmoteCallback(name) {
-          api[name] = function () {
-            fadeToAction(name, 0.2);
+        // function restoreState() {
+        //   mixer.removeEventListener("finished", restoreState);
 
-            mixer.addEventListener("finished", restoreState);
-          };
+        //   fadeToAction(api.state, 0.2);
+        // }
 
-          emoteFolder.add(api, name);
-        }
+        // for (let i = 0; i < emotes.length; i++) {
+        //   createEmoteCallback(emotes[i]);
+        // }
 
-        function restoreState() {
-          mixer.removeEventListener("finished", restoreState);
-
-          fadeToAction(api.state, 0.2);
-        }
-
-        for (let i = 0; i < emotes.length; i++) {
-          createEmoteCallback(emotes[i]);
-        }
-
-        emoteFolder.open();
+        // emoteFolder.open();
 
         // expressions
 
-        face = model.getObjectByName("Head_4");
+        // face = model.getObjectByName("Head_4");
 
-        const expressions = Object.keys(face.morphTargetDictionary);
-        const expressionFolder = gui.addFolder("Expressions");
+        // if(face){
+        //     const expressions = Object.keys(face.morphTargetDictionary);
+        //     const expressionFolder = gui.addFolder("Expressions");
 
-        for (let i = 0; i < expressions.length; i++) {
-          expressionFolder
-            .add(face.morphTargetInfluences, i, 0, 1, 0.01)
-            .name(expressions[i]);
-        }
-
-        activeAction = actions["Walking"];
+        //     for (let i = 0; i < expressions.length; i++) {
+        //     expressionFolder
+        //         .add(face.morphTargetInfluences, i, 0, 1, 0.01)
+        //         .name(expressions[i]);
+        //     }
+        //     expressionFolder.open();
+        // }
+    
+        activeAction = actions[states[0]];
         activeAction.play();
-
-        expressionFolder.open();
       }
 
       function fadeToAction(name, duration) {
