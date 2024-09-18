@@ -1,0 +1,28 @@
+{
+  "type": "FeatureCollection",
+  "name": "dongyuanxian-center-84",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    { "type": "Feature", "properties": { "NAME": "仙塘镇" }, "geometry": { "type": "Point", "coordinates": [ 114.78113618469055,23.83694467666377 ] } },
+    { "type": "Feature", "properties": { "NAME": "骆湖镇" }, "geometry": { "type": "Point", "coordinates": [ 114.88614758385738,24.062161477355744 ] } },
+    { "type": "Feature", "properties": { "NAME": "船塘镇" }, "geometry": { "type": "Point", "coordinates": [ 114.93709550287672,24.183769390335588 ] } },
+    { "type": "Feature", "properties": { "NAME": "顺天镇" }, "geometry": { "type": "Point", "coordinates": [ 114.78894204691238,24.10607101993551 ] } },
+    { "type": "Feature", "properties": { "NAME": "灯塔镇" }, "geometry": { "type": "Point", "coordinates": [ 114.83202139602557,23.984038574822918 ] } },
+    { "type": "Feature", "properties": { "NAME": "上莞镇" }, "geometry": { "type": "Point", "coordinates": [ 115.01584367649542,24.103802466941012 ] } },
+    { "type": "Feature", "properties": { "NAME": "曾田镇" }, "geometry": { "type": "Point", "coordinates": [ 114.9692235074143,23.990466653713085 ] } },
+    { "type": "Feature", "properties": { "NAME": "柳城镇" }, "geometry": { "type": "Point", "coordinates": [ 115.10401751856809,24.05185387071829 ] } },
+    { "type": "Feature", "properties": { "NAME": "义合镇" }, "geometry": { "type": "Point", "coordinates": [ 114.89024547748073,23.83462465630274 ] } },
+    { "type": "Feature", "properties": { "NAME": "蓝口镇" }, "geometry": { "type": "Point", "coordinates": [ 115.0771072928868,23.95270354924334 ] } },
+    { "type": "Feature", "properties": { "NAME": "黄田镇" }, "geometry": { "type": "Point", "coordinates": [ 114.9649259086623,23.837866079423097 ] } },
+    { "type": "Feature", "properties": { "NAME": "叶潭镇" }, "geometry": { "type": "Point", "coordinates": [ 115.20752635628932,23.876015036963988 ] } },
+    { "type": "Feature", "properties": { "NAME": "黄村镇" }, "geometry": { "type": "Point", "coordinates": [ 115.25012566961306,23.817463326021524 ] } },
+    { "type": "Feature", "properties": { "NAME": "康禾镇" }, "geometry": { "type": "Point", "coordinates": [ 115.10655426061821,23.7887934387872 ] } },
+    { "type": "Feature", "properties": { "NAME": "锡场镇" }, "geometry": { "type": "Point", "coordinates": [ 114.49863384550386,23.924022962301514 ] } },
+    { "type": "Feature", "properties": { "NAME": "新港镇" }, "geometry": { "type": "Point", "coordinates": [ 114.65993576211842,23.81366454408677 ] } },
+    { "type": "Feature", "properties": { "NAME": "双江镇" }, "geometry": { "type": "Point", "coordinates": [ 114.67904885607524,23.954577802581067 ] } },
+    { "type": "Feature", "properties": { "NAME": "涧头镇" }, "geometry": { "type": "Point", "coordinates": [ 114.68217668562495,24.077716731390453 ] } },
+    { "type": "Feature", "properties": { "NAME": "新回龙镇" },"geometry":{ "type": "Point", "coordinates": [ 114.45683680000000,23.774814940000000] } },
+    { "type": "Feature", "properties": { "NAME": "半江镇" }, "geometry": { "type": "Point", "coordinates": [ 114.54202841942977,24.042913713106916 ] } },
+    { "type": "Feature", "properties": { "NAME": "漳溪乡" }, "geometry": { "type": "Point", "coordinates": [ 114.9140178960097,24.1072997366304 ] } }
+  ]
+}

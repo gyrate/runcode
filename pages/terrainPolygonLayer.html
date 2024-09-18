@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+    <title>test gl-layers</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tool {
+            position: absolute;
+            top: 1em;
+            left: 8em;
+            z-index: 99;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.16/lodash.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <script type="module">
+        import * as THREE from "three";
+        import { initMap, getMap } from "../js/mainMap2.js";
+        import TerrainPolygonLayer from "../js/gl-layers/TerrainPolygonLayer.js";
+        import LayerManager from '../js/gl-layers/core/LayerManager.js'
+        import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+        import { fetchData } from "../js/utils/mock.js";
+
+        console.log(THREE.REVISION);
+
+        const layerManger = new LayerManager()
+
+        let layer;
+        let map;
+        let gui;
+
+        const guiControl = {
+            repeat: 1,
+            offsetX: 0,
+            offsetY: 0,
+            rotation: 0,
+            centerX: 0.5,
+            centerY: 0.5,
+            segment: 12,
+            enableTextureMap: true,
+            wireframe: false,
+            enableNormalMap: true,
+            normalScale: 2.0, //10
+            bumpScale: 0,
+            displacementScale: 5000,
+            intensity: 5.0
+        };
+
+        async function main() {
+            await init();
+            await initLayers();
+            initGUI()
+        }
+        main();
+
+        async function initLayers() {
+            // await initHaloLayer()
+            await initPolygonLayer();
+            // await initDOMLayer()
+        }
+
+        async function init() {
+            map = await initMap({
+                viewMode: "3D",
+                dom: document.getElementById("container"),
+                showBuildingBlock: false,
+                center: [114.87183, 23.931571],
+                zoom: 10.6,
+                //   pitch: 55.0,
+                mapStyle: "amap://styles/light",
+                skyColor: "rgba(140, 176, 222, 1)",
+            });
+
+            // 添加卫星地图
+            const satelliteLayer = new AMap.TileLayer.Satellite();
+            map.add([satelliteLayer]);
+            // 给底图添加css滤镜
+            // document.querySelector('.amap-layer').style = 'filter:brightness(0.5) saturate(0.3) grayscale(0.5);'
+
+            map.on("zoomend", (event) => {
+                console.log(`当前地图zoom: ${map.getZoom()}`);
+            });
+            map.on("click", (event) => {
+                const { lng, lat } = event.lnglat;
+                console.log([lng, lat]);
+            });
+        }
+
+        async function initPolygonLayer() {
+            const data = await fetchData("../static/mock/dongyuanxian/dongyuan_polyline.geojson");
+
+            // 普通贴图
+            const textureMapURL = `../static/mock/dongyuanxian/dongyuan_wx.jpg`;
+            // 法线贴图
+            const normalMapURL = `../static/mock/dongyuanxian/dongyuan_normal.jpg`;
+            // 位移贴图
+            const displacementMapURL = `../static/mock/dongyuanxian/dongyuan_dem2.jpg`;
+            // 侧面的贴图
+            const sideTextureMapURL = `../static/image/texture/texture_cake_1.png`;
+
+            // 获取材质配置项
+            const { normalScale, displacementScale, segment, intensity } = guiControl
+
+            const layer = new TerrainPolygonLayer({
+                id: "polygonLayer0",
+                map,
+                altitude: 3000,
+                intensity,
+                segment,
+                data,
+                textureMapURL,
+                normalMapURL,
+                displacementMapURL,
+                normalScale,
+                displacementScale,
+                sideTextureMapURL,
+                lineWidth: 300,
+            });
+            layerManger.add(layer)
+        }
+
+        function initGUI() {
+            gui = new GUI()
+
+            const layer = layerManger.findLayerById('polygonLayer0')
+
+            gui.add(guiControl, 'enableTextureMap').name('普通贴图').onChange((value) => {
+                layer.updateMaterial('textureMap', value ? layer._topMeshProps.textureMap : null)
+            })
+            gui.add(guiControl, 'repeat', 0, 10).name('贴图拉伸').onChange((value) => {
+                layer._topMeshProps.textureMap.repeat.set(value, value)
+                layer._topMeshProps.normalMap.repeat.set(value, value)
+                layer._topMeshProps.displacementMap.repeat.set(value, value)
+            })
+            gui.add(guiControl, 'offsetX', -1, 10).name('X偏移').step(0.01).onChange((value) => {
+                const { x, y } = layer._topMeshProps.textureMap.offset
+                layer._topMeshProps.textureMap.offset.set(value, y)
+                layer._topMeshProps.normalMap.offset.set(value, y)
+                layer._topMeshProps.displacementMap.offset.set(value, y)
+            })
+            gui.add(guiControl, 'offsetY', -1, 10).name('Y偏移').step(0.01).onChange((value) => {
+                const { x, y } = layer._topMeshProps.textureMap.offset
+                layer._topMeshProps.textureMap.offset.set(x, value)
+                layer._topMeshProps.normalMap.offset.set(x, value)
+                layer._topMeshProps.displacementMap.offset.set(x, value)
+            })
+            gui.add(guiControl, 'centerX', 0, 1).name('旋转中心X').step(0.1).onChange((value) => {
+                const { x, y } = layer._topMeshProps.textureMap.center
+                layer._topMeshProps.textureMap.center.set(value, y)
+            })
+            gui.add(guiControl, 'centerY', 0, 1).name('旋转中心Y').step(0.1).onChange((value) => {
+                const { x, y } = layer._topMeshProps.textureMap.center
+                layer._topMeshProps.textureMap.center.set(x, value)
+            })
+            gui.add(guiControl, 'rotation', 0, 360).name('旋转角度').onChange((value) => {
+                layer.updateUniforms('rotation', value * Math.PI / 180)
+            })
+            gui.add(guiControl, 'segment', 1, 20).name('细分程度').step(1).onChange((value) => {
+                layer.setSegment(value)
+            })
+            gui.add(guiControl, 'wireframe').name('线框').onChange((value) => {
+                layer.updateMaterial('wireframe', !!value)
+            })
+
+            gui.add(guiControl, 'enableNormalMap').name('启动法线|凹凸失效').onChange((value) => {
+                layer.updateMaterial('normalMap', value ? layer._topMeshProps.normalMap : null)
+            })
+            gui.add(guiControl, 'normalScale', 0, 30).name('法线程度').onChange((value) => {
+                layer.updateMaterial('normalScale', new THREE.Vector2(value, value),)
+            })
+            gui.add(guiControl, 'displacementScale', 0, 5000).step(10).name('位移程度').onChange((value) => {
+                layer.updateMaterial('displacementScale', value)
+            })
+            gui.add(guiControl, 'intensity', 1.0, 10).name('光照强度').onChange((value) => {
+                // layer.updateMaterial('displacementScale', value)
+                // debugger
+                const matchArr = layer.scene.children.filter(v => ['DirectionalLight', 'AmbientLight'].includes(v.type))
+
+                layer.scene.children.forEach(item => {
+                    if (item.type == 'DirectionalLight') {
+                        item.intensity = value
+                    } else if (item.type == "AmbientLight") {
+                        item.intensity = 2.0 * value
+                    }
+                });
+            })
+        }
+
+    </script>
+</body>
+
+</html>
