@@ -69,7 +69,7 @@
         previousAction;
       let camera, scene, renderer, model, face, controls;
 
-      const api = { state: "Walking" };
+      const api = { state: "root|idle" };
 
       init();
 
@@ -83,11 +83,13 @@
           0.25,
           100
         );
-        camera.position.set(-5, 3, 10);
+        camera.position.set(-18.025190866867646, 10.815114520120584, 36.05038173373529);
         camera.lookAt(0, 2, 0);
 
+        window._camera = camera
+
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xe0e0e0);
+        scene.background = new THREE.Color(0xffffff);
         // scene.fog = new THREE.Fog(0xe0e0e0, 20, 100);
 
         clock = new THREE.Clock();
@@ -97,7 +99,7 @@
         hemiLight.position.set(0, 100, 0);
         scene.add(hemiLight);
 
-        const dirLight = new THREE.DirectionalLight(0xfff5d8, 1.5);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
         dirLight.position.set(0, 100, 10);
         scene.add(dirLight);
 
@@ -105,7 +107,7 @@
 
         const mesh = new THREE.Mesh(
           new THREE.PlaneGeometry(2000, 2000),
-          new THREE.MeshPhongMaterial({ color: 0xcbcbcb, depthWrite: false })
+          new THREE.MeshPhongMaterial({ color: 0xffffff, depthWrite: false })
         );
         mesh.rotation.x = -Math.PI / 2;
         scene.add(mesh);
@@ -131,14 +133,13 @@
         // );
 
         const loader = new FBXLoader();
-        // loader.load("../static/gltf/Samba.fbx", function ( object ) {
         loader.load("../static/gltf/xiaoz.fbx", function ( object ) {
             const size = 0.05
             object.scale.set(size, size, size);
-
+            // 去除模型中的光照
             const index = object.children.findIndex(v=>v.name=="Light")
             object.children.splice(index, 1)
-
+            // 调整下材质的瑕疵
             object.children.forEach(element => {
                 const {material ,name } = element
                 if(['Retopo_ball','Retopo_face'].includes(name)){
@@ -146,8 +147,9 @@
                     material.transparent = false
                 }
             });
-
+            // 加载模型
             scene.add( object );
+            // gui控制
             createGUI(object, object.animations)
         } );
 
@@ -184,13 +186,13 @@
           const action = mixer.clipAction(clip);
           actions[clip.name] = action;
 
-          if (
-            emotes.indexOf(clip.name) >= 0 ||
-            states.indexOf(clip.name) >= 4
-          ) {
-            action.clampWhenFinished = true;
-            action.loop = THREE.LoopOnce;
-          }
+          // if (
+          //   emotes.indexOf(clip.name) >= 0 ||
+          //   states.indexOf(clip.name) >= 4
+          // ) {
+          //   action.clampWhenFinished = true;
+          //   action.loop = THREE.LoopOnce;
+          // }
         }
 
         // states
@@ -244,10 +246,15 @@
         //     expressionFolder.open();
         // }
     
-        activeAction = actions[states[0]];
+        activeAction = actions[states[3]];
         activeAction.play();
       }
 
+      /**
+       * @description 切换动作
+       * @param name {String} 动作名
+       * @param duration {Number} 切换过渡时间
+       */
       function fadeToAction(name, duration) {
         previousAction = activeAction;
         activeAction = actions[name];
