@@ -10,12 +10,14 @@
 | 4  | typhoon.html    | 台风路径      |
 
 
-# 如何启动
+## 如何启动
 
 方法1： 安装node后启动node服务器
 ```
 node serve.js
 ```
 
-方法2：安装vscode插件Live Server 后右键页面启动 Open with Live Server
+方法2：安装vscode插件Live Server
+
+右键页面启动 Open with Live Server
 
